@@ -1,6 +1,3 @@
-mise.setup:
-	cd backend && mise install
-
 build:
 	docker-compose -f docker-compose.yml up -d db redis backend frontend
 
