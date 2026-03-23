@@ -1,0 +1,9 @@
+Order Confirmed
+
+Thank you! Your order has been received and is being processed.
+
+Order #:  <%= @order.id %>
+Product:  <%= @order.product %>
+Customer: <%= @order.customer_name %>
+Amount:   <%= number_to_currency(@order.amount_cents / 100.0) %>
+Status:   <%= @order.status.capitalize %>

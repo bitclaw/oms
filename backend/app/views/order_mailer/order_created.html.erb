@@ -1,0 +1,26 @@
+<h1>Order Confirmed</h1>
+
+<p>Thank you! Your order has been received and is being processed.</p>
+
+<table>
+  <tr>
+    <th>Order #</th>
+    <td><%= @order.id %></td>
+  </tr>
+  <tr>
+    <th>Product</th>
+    <td><%= @order.product %></td>
+  </tr>
+  <tr>
+    <th>Customer</th>
+    <td><%= @order.customer_name %></td>
+  </tr>
+  <tr>
+    <th>Amount</th>
+    <td><%= number_to_currency(@order.amount_cents / 100.0) %></td>
+  </tr>
+  <tr>
+    <th>Status</th>
+    <td><%= @order.status.capitalize %></td>
+  </tr>
+</table>
