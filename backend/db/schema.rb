@@ -10,8 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 0) do
+ActiveRecord::Schema[7.2].define(version: 2026_03_23_202433) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "orders", comment: "Stores customer orders placed through the OMS", force: :cascade do |t|
+    t.string "customer_name", null: false, comment: "Full name of the customer placing the order"
+    t.string "product", null: false, comment: "Name or description of the product ordered"
+    t.integer "amount_cents", null: false, comment: "Order total in cents to avoid floating-point precision issues"
+    t.string "status", default: "pending", null: false, comment: "Lifecycle status of the order: pending, completed, cancelled"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["status"], name: "index_orders_on_status", comment: "Supports filtering orders by status"
+  end
 end
