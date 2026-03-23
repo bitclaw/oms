@@ -14,19 +14,19 @@ stop:
 	docker-compose down
 
 rails.c:
-	docker-compose run backend rails c
+	docker-compose run --rm backend rails c
 
 sh:
-	docker-compose run backend sh
+	docker-compose run --rm backend sh
 
 frontend.sh:
-	docker-compose run frontend sh
+	docker-compose run --rm frontend sh
 
 db.init:
-	docker-compose run backend bundle exec rake db:create db:migrate db:seed
+	docker-compose run --rm backend bundle exec rake db:create db:migrate db:seed
 
 db.migrate:
-	docker-compose run backend bundle exec rake db:migrate
+	docker-compose run --rm backend bundle exec rake db:migrate
 
 db.reset:
 	docker-compose run --rm backend bundle exec rake db:drop db:create db:migrate db:seed
