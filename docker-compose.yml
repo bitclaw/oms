@@ -19,6 +19,7 @@ services:
   backend:
     build:
       context: ./backend
+    user: "${CURRENT_UID:-1000}:${CURRENT_GID:-1000}"
     working_dir: /rails
     command: ["./bin/rails", "server", "-b", "0.0.0.0"]
     volumes:

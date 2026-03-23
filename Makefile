@@ -1,3 +1,6 @@
+env.setup:
+	cp .env.example .env
+
 build:
 	docker-compose -f docker-compose.yml up -d db redis backend frontend
 
