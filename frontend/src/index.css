@@ -2,67 +2,76 @@
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
+  color: oklch(25% 0.02 250);
+  background-color: oklch(96% 0.005 250);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
   min-height: 100vh;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
 button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
+  border-radius: 6px;
+  border: 1px solid oklch(83% 0.01 250);
+  padding: 0.5em 1em;
+  font-size: 0.875rem;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: oklch(100% 0 0);
   cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  transition: background-color 0.15s, border-color 0.15s;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+button:hover {
+  background-color: oklch(97% 0.005 250);
+}
+
+button.btn--primary {
+  background-color: oklch(52% 0.22 270);
+  color: oklch(100% 0 0);
+  border-color: oklch(52% 0.22 270);
+}
+
+button.btn--primary:hover {
+  background-color: oklch(47% 0.22 270);
+  border-color: oklch(47% 0.22 270);
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+input {
+  display: block;
+  width: 100%;
+  padding: 0.5em 0.75em;
+  font-size: 0.875rem;
+  font-family: inherit;
+  border: 1px solid oklch(83% 0.01 250);
+  border-radius: 6px;
+  margin-top: 0.25rem;
+  outline: none;
+}
+
+input:focus {
+  border-color: oklch(52% 0.22 270);
+  box-shadow: 0 0 0 3px oklch(52% 0.22 270 / 0.15);
+}
+
+label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: oklch(35% 0.02 250);
 }
