@@ -35,7 +35,7 @@ db.rollback:
 	docker-compose run --rm backend bundle exec rake db:rollback
 
 test:
-	docker-compose run --rm backend bundle exec rspec
+	docker-compose run --rm -e RAILS_ENV=test backend bundle exec rspec
 
 rubocop:
 	docker-compose run --rm --no-deps backend bundle exec rubocop
