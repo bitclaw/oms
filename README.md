@@ -133,7 +133,7 @@ database and never pollute development data.
 
 ### Scalability considerations
 
-- `Order.ordered` sorts by `created_at desc`. There's no index on `created_at` right now fine for this scale, would add
+- `Order.ordered` sorts by `created_at desc`. There's no index on `created_at` right now, fine for this scale, would add
   one before this hits any real load.
 - `status` has no index either. If filtering by status becomes common (e.g. "show all pending orders"), that's a
   one-line migration to add.
@@ -157,7 +157,8 @@ Three dedicated CI jobs cover the security surface:
 - Order status transitions with validation (can't go from canceled back to pending)
 - More frontend tests, especially for the Dialog submit/error flow
 - A `show` and `update` endpoint to round out the CRUD
---
+
+---
 
 ## Exercise for FullStack position
 
