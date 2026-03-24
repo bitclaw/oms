@@ -41,7 +41,7 @@ export const useOrders = () => {
 
   useEffect(() => {
     fetchOrders()
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [])  
 
   return { orders, isLoading, error, fetchOrders, createOrder }
 }
