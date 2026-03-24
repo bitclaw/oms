@@ -92,6 +92,30 @@ RSpec.describe "Api::V1::Orders", type: :request do
     end
   end
 
+  describe "DELETE /api/v1/orders/:id" do
+    let!(:order) { create(:order) }
+
+    context "when the order exists" do
+      it "returns 204" do
+        delete "/api/v1/orders/#{order.id}"
+        expect(response).to have_http_status(:no_content)
+      end
+
+      it "deletes the order" do
+        expect {
+          delete "/api/v1/orders/#{order.id}"
+        }.to change(Order, :count).by(-1)
+      end
+    end
+
+    context "when the order does not exist" do
+      it "returns 404" do
+        delete "/api/v1/orders/0"
+        expect(response).to have_http_status(:not_found)
+      end
+    end
+  end
+
   describe "POST /api/v1/orders" do
     let(:valid_params) do
       {

@@ -3,7 +3,7 @@
 module Api
   module V1
     class OrdersController < ApplicationController
-      before_action :set_order, only: [ :show, :update ]
+      before_action :set_order, only: [ :show, :update, :destroy ]
 
       def index
         result = Orders::IndexService.new.call
@@ -22,6 +22,11 @@ module Api
         else
           render json: { errors: result.errors }, status: :unprocessable_entity
         end
+      end
+
+      def destroy
+        @order.destroy
+        head :no_content
       end
 
       def create
