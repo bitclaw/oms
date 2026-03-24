@@ -52,6 +52,12 @@ rubocop:
 rubocop.fix:
 	docker compose run --rm --no-deps backend bundle exec rubocop -a
 
+bundle.audit:
+	docker compose run --rm --no-deps -e HOME=/tmp backend bundle exec bundle-audit check --update
+
+brakeman:
+	docker compose run --rm --no-deps backend bundle exec brakeman --no-pager
+
 test.frontend:
 	docker compose run --rm frontend sh -c "npm ci && npm test"
 

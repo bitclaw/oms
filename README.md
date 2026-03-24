@@ -2,7 +2,7 @@
 
 This repository contains two projects:
 - **frontend/**: React 19 + Vite application
-- **backend/**: Ruby on Rails 7.2 API-only application (Ruby 3.2)
+- **backend/**: Ruby on Rails 7.2 API-only application (Ruby 3.3)
 
 All services run in Docker using `docker-compose`.
 
@@ -142,9 +142,13 @@ database and never pollute development data.
 
 ### Security
 
-CI runs `npm audit --omit=dev` as a dedicated job. Scoped to production dependencies only, dev tooling vulnerabilities
-(Vite, Vitest, etc.) don't ship in the build artifact so they're not worth failing the pipeline on. Zero production
-vulnerabilities at time of submission.
+Three dedicated CI jobs cover the security surface:
+
+- `npm audit --omit=dev`: checks frontend production deps against the npm advisory database. Dev tooling
+  vulnerabilities don't ship in the build artifact so they're excluded. Zero production vulnerabilities at time of
+  submission.
+- `bundler-audit`: checks `Gemfile.lock` against the Ruby Advisory Database for known CVEs in gems.
+- `brakeman`: static analysis for Rails-specific vulnerabilities (SQL injection, XSS, mass assignment, etc.).
 
 ### What I'd add with more time
 

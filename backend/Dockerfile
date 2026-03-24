@@ -1,4 +1,4 @@
-FROM ruby:3.2.8
+FROM ruby:3.3.10
 LABEL description="AceUp Tech assessment backend docker image"
 LABEL version="1.0"
 LABEL mantainer="Alejandro Gurovich <alex@rocket-house.com>"

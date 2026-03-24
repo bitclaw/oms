@@ -85,6 +85,9 @@ GEM
     brakeman (8.0.4)
       racc
     builder (3.3.0)
+    bundler-audit (0.9.3)
+      bundler (>= 1.2.0)
+      thor (~> 1.0)
     cgi (0.5.1)
     childprocess (5.1.0)
       logger (~> 1.5)
@@ -297,6 +300,7 @@ PLATFORMS
 DEPENDENCIES
   bootsnap
   brakeman
+  bundler-audit
   debug
   factory_bot_rails
   letter_opener

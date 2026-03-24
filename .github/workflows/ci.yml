@@ -93,3 +93,29 @@ jobs:
 
       - name: Audit production dependencies
         run: make audit.frontend
+
+  bundle-audit:
+    name: bundler-audit
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build backend image
+        run: make build
+
+      - name: Audit gem dependencies
+        run: make bundle.audit
+
+  brakeman:
+    name: Brakeman
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build backend image
+        run: make build
+
+      - name: Run Brakeman
+        run: make brakeman
