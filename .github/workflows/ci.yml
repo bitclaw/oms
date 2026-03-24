@@ -55,6 +55,19 @@ jobs:
       - name: Run ESLint
         run: make lint.frontend
 
+  frontend-test:
+    name: Vitest
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build frontend image
+        run: make build.frontend
+
+      - name: Run Vitest
+        run: make test.frontend
+
   frontend-build:
     name: Frontend build
     runs-on: ubuntu-latest
