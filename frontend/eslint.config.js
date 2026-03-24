@@ -30,4 +30,10 @@ export default [
       ],
     },
   },
+  {
+    files: ['src/test/**/*.{js,jsx}'],
+    languageOptions: {
+      globals: { ...globals.vitest, ...globals.node },
+    },
+  },
 ]
