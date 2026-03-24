@@ -10,6 +10,8 @@ const totalRevenue = (orders) => {
   return (cents / 100).toLocaleString('en-US', { style: 'currency', currency: 'USD' })
 }
 
+const pendingCount = (orders) => orders.filter((o) => o.status === 'pending').length
+
 export const Dashboard = () => {
   const { orders, isLoading, error, createOrder } = useOrders()
   const [isDialogOpen, setIsDialogOpen] = useState(false)
@@ -28,6 +30,7 @@ export const Dashboard = () => {
 
       <div className="stat-cards">
         <StatCard label="Total Orders" value={orders.length} />
+        <StatCard label="Pending Orders" value={pendingCount(orders)} />
         <StatCard label="Total Revenue" value={totalRevenue(orders)} />
       </div>
 
