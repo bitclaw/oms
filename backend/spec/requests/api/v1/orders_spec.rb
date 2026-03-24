@@ -27,6 +27,35 @@ RSpec.describe "Api::V1::Orders", type: :request do
     end
   end
 
+  describe "GET /api/v1/orders/:id" do
+    let(:order) { create(:order) }
+
+    context "when the order exists" do
+      it "returns 200" do
+        get "/api/v1/orders/#{order.id}"
+        expect(response).to have_http_status(:ok)
+      end
+
+      it "returns the order" do
+        get "/api/v1/orders/#{order.id}"
+        expect(json_body[:id]).to eq(order.id)
+        expect(json_body[:customer_name]).to eq(order.customer_name)
+      end
+    end
+
+    context "when the order does not exist" do
+      it "returns 404" do
+        get "/api/v1/orders/0"
+        expect(response).to have_http_status(:not_found)
+      end
+
+      it "returns an error message" do
+        get "/api/v1/orders/0"
+        expect(json_body[:error]).to eq("Order not found")
+      end
+    end
+  end
+
   describe "POST /api/v1/orders" do
     let(:valid_params) do
       {
