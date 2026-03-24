@@ -43,12 +43,11 @@ rubocop:
 rubocop.fix:
 	docker-compose run --rm --no-deps backend bundle exec rubocop -a
 
-# Make sure you bring up the frontend first: docker-compose up frontend
 lint.frontend:
-	docker-compose exec frontend npm run lint
+	docker-compose run --rm frontend sh -c "npm ci && npm run lint"
 
 lint.frontend.fix:
-	docker-compose exec frontend npm run lint -- --fix
+	docker-compose run --rm frontend sh -c "npm ci && npm run lint -- --fix"
 
 logs:
 	docker-compose logs -f

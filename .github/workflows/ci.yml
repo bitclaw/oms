@@ -1,0 +1,68 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    name: RSpec
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up environment
+        run: cp .env.example .env
+
+      - name: Build images
+        run: docker-compose build
+
+      - name: Set up database
+        run: docker-compose run --rm -e RAILS_ENV=test backend bundle exec rails db:schema:load
+
+      - name: Run RSpec
+        run: make test
+
+  rubocop:
+    name: RuboCop
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build backend image
+        run: docker-compose build backend
+
+      - name: Run RuboCop
+        run: make rubocop
+
+  lint:
+    name: ESLint
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build frontend image
+        run: docker-compose build frontend
+
+      - name: Run ESLint
+        run: make lint.frontend
+
+  frontend-build:
+    name: Frontend build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build frontend image
+        run: docker-compose build frontend
+
+      - name: Validate build
+        run: docker-compose run --rm frontend sh -c "npm ci && npm run build"
+        env:
+          VITE_API_URL: http://localhost:3000
