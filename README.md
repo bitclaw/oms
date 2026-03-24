@@ -140,6 +140,12 @@ database and never pollute development data.
 - Email delivery is synchronous (`deliver_now`). For anything beyond a smallish app, this belongs in a background job
   (Sidekiq, GoodJob, etc.) so a slow mailer doesn't block the request.
 
+### Security
+
+CI runs `npm audit --omit=dev` as a dedicated job. Scoped to production dependencies only, dev tooling vulnerabilities
+(Vite, Vitest, etc.) don't ship in the build artifact so they're not worth failing the pipeline on. Zero production
+vulnerabilities at time of submission.
+
 ### What I'd add with more time
 
 - Background job for email delivery

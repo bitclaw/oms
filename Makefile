@@ -58,6 +58,9 @@ test.frontend:
 lint.frontend:
 	docker compose run --rm frontend sh -c "npm ci && npm run lint"
 
+audit.frontend:
+	docker compose run --rm frontend sh -c "npm ci && npm audit --omit=dev"
+
 lint.frontend.fix:
 	docker compose run --rm frontend sh -c "npm ci && npm run lint -- --fix"
 
