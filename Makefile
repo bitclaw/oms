@@ -2,7 +2,13 @@ env.setup:
 	cp .env.example .env
 
 build:
-	docker compose -f docker-compose.yml up -d db redis backend frontend
+	docker compose build
+
+build.frontend:
+	docker compose build frontend
+
+frontend.build:
+	docker compose run --rm -e VITE_API_URL=http://localhost:3000 frontend sh -c "npm ci && npm run build"
 
 bundle.update:
 	docker compose run --rm --no-deps backend bundle update
@@ -24,6 +30,9 @@ frontend.sh:
 
 db.init:
 	docker compose run --rm backend bundle exec rake db:create db:migrate db:seed
+
+db.init.test:
+	docker compose run --rm -e RAILS_ENV=test backend bundle exec rake db:create db:schema:load
 
 db.migrate:
 	docker compose run --rm backend bundle exec rake db:migrate

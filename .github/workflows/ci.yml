@@ -21,10 +21,10 @@ jobs:
           sed -i "s/^CURRENT_GID=.*/CURRENT_GID=$(id -g)/" .env
 
       - name: Build images
-        run: docker compose build
+        run: make build
 
       - name: Set up database
-        run: docker compose run --rm -e RAILS_ENV=test backend bundle exec rails db:schema:load
+        run: make db.init.test
 
       - name: Run RSpec
         run: make test
@@ -37,7 +37,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Build backend image
-        run: docker compose build backend
+        run: make build
 
       - name: Run RuboCop
         run: make rubocop
@@ -50,7 +50,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Build frontend image
-        run: docker compose build frontend
+        run: make build.frontend
 
       - name: Run ESLint
         run: make lint.frontend
@@ -63,9 +63,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Build frontend image
-        run: docker compose build frontend
+        run: make build.frontend
 
       - name: Validate build
-        run: docker compose run --rm frontend sh -c "npm ci && npm run build"
-        env:
-          VITE_API_URL: http://localhost:3000
+        run: make frontend.build
