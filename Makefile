@@ -52,6 +52,9 @@ rubocop:
 rubocop.fix:
 	docker compose run --rm --no-deps backend bundle exec rubocop -a
 
+test.frontend:
+	docker compose run --rm frontend sh -c "npm ci && npm test"
+
 lint.frontend:
 	docker compose run --rm frontend sh -c "npm ci && npm run lint"
 
