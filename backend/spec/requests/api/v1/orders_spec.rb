@@ -56,6 +56,42 @@ RSpec.describe "Api::V1::Orders", type: :request do
     end
   end
 
+  describe "PATCH /api/v1/orders/:id" do
+    let(:order) { create(:order, status: "pending") }
+
+    context "with valid params" do
+      it "returns 200" do
+        patch "/api/v1/orders/#{order.id}", params: { order: { status: "completed" } }, as: :json
+        expect(response).to have_http_status(:ok)
+      end
+
+      it "updates the order" do
+        patch "/api/v1/orders/#{order.id}", params: { order: { status: "completed" } }, as: :json
+        expect(json_body[:status]).to eq("completed")
+      end
+    end
+
+    context "with invalid params" do
+      it "returns 422" do
+        patch "/api/v1/orders/#{order.id}", params: { order: { amount_cents: -1 } }, as: :json
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+
+      it "returns an errors array" do
+        patch "/api/v1/orders/#{order.id}", params: { order: { amount_cents: -1 } }, as: :json
+        expect(json_body[:errors]).to be_an(Array)
+        expect(json_body[:errors]).not_to be_empty
+      end
+    end
+
+    context "when the order does not exist" do
+      it "returns 404" do
+        patch "/api/v1/orders/0", params: { order: { status: "completed" } }, as: :json
+        expect(response).to have_http_status(:not_found)
+      end
+    end
+  end
+
   describe "POST /api/v1/orders" do
     let(:valid_params) do
       {

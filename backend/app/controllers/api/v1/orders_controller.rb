@@ -3,7 +3,7 @@
 module Api
   module V1
     class OrdersController < ApplicationController
-      before_action :set_order, only: [ :show ]
+      before_action :set_order, only: [ :show, :update ]
 
       def index
         result = Orders::IndexService.new.call
@@ -12,6 +12,16 @@ module Api
 
       def show
         render json: @order, status: :ok
+      end
+
+      def update
+        result = Orders::UpdateService.new(@order, order_params).call
+
+        if result.success?
+          render json: result.order, status: :ok
+        else
+          render json: { errors: result.errors }, status: :unprocessable_entity
+        end
       end
 
       def create
@@ -33,7 +43,7 @@ module Api
       end
 
       def order_params
-        params.require(:order).permit(:customer_name, :product, :amount_cents)
+        params.require(:order).permit(:customer_name, :product, :amount_cents, :status)
       end
     end
   end
