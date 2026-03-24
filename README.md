@@ -12,17 +12,23 @@ All services run in Docker using `docker-compose`.
 
 ## Quick Start
 
-1. **Build and start all services:**
+1. **Set up environment variables:**
 
 ```bash
-make build
+make env.setup
 ```
 
-2. **Access the apps:**
+2. **Build images and start all services:**
+
+```bash
+make build && make start
+```
+
+3. **Access the apps:**
 - Frontend: [http://localhost:5173](http://localhost:5173)
 - Backend (Rails API): [http://localhost:3000](http://localhost:3000)
 
-3. **Database**
+4. **Database**
 - Postgres runs in the `db` service.
 - Default credentials (see `docker-compose.yml`):
   - Host: `db`
@@ -30,10 +36,11 @@ make build
   - Password: `postgres`
   - Database: `aceup_db`
 
-4. **First-time Rails setup** (run in another terminal):
+5. **First-time Rails setup** (run in another terminal):
 
 ```bash
-make db.init
+make db.init        # development database
+make db.init.test   # test database
 ```
 
 ## Useful Commands
@@ -67,6 +74,77 @@ make db.init
   ```bash
   make db.migrate
   ```
+
+- **Run backend tests:**
+  ```bash
+  make test
+  ```
+
+- **Run frontend tests:**
+  ```bash
+  make test.frontend
+  ```
+
+- **Run RuboCop:**
+  ```bash
+  make rubocop
+  ```
+
+- **Run ESLint:**
+  ```bash
+  make lint.frontend
+  ```
+
+## My Solution (Daniel)
+
+### Approach
+
+I followed the MVCS pattern the assessment calls for. Controllers are thin, they parse the request, call a service,
+and render JSON. All business logic lives in service objects under `app/services/`.
+
+### Key design decisions
+
+- **Money as cents:** `amount_cents` is an integer column. Avoids floating point issues entirely. The frontend divides
+  by 100 for display and multiplies by 100 on input.
+- **Status as a constant:** `Order::STATUSES = %w[pending completed cancelled]`. One place to change it, validated at
+  the model level with `validate_inclusion_of`.
+- **Result struct in the service:** `Orders::CreateService` returns a `Result` struct with `success?`, `order`, and
+  `errors`. Same idea as `Either` in Haskell, `Result<T, E>` in Rust, or `neverthrow` in TypeScript, failure is explicit
+  in the return type, not an exception you might forget to rescue. The controller just checks `result.success?`.
+- **Email on create:** `OrderMailer.order_created(order).deliver_now` is called from the service, not the controller. In
+  production, you'd want `deliver_later` with a background job, but the assessment says no background jobs required.
+- **CORS scoped to localhost:5173:** The CORS initializer only allows the local frontend origin. Easy to extend for
+  production domains.
+
+### Docker user mapping
+
+The backend container runs as `CURRENT_UID:CURRENT_GID` (set in `.env`). This prevents permission issues on mounted
+volumes when your local user differs from the container default. CI uses `sed -i` to replace these values in `.env`
+before building.
+
+### DB isolation
+
+`database.yml` controls the database name per environment (`aceup_db_development`, `aceup_db_test`). There is no
+`DATABASE_NAME` override in `docker-compose.yml` — that was intentionally removed so test runs always hit the test
+database and never pollute development data.
+
+### Scalability considerations
+
+- `Order.ordered` sorts by `created_at desc`. There's no index on `created_at` right now fine for this scale, would add
+  one before this hits any real load.
+- `status` has no index either. If filtering by status becomes common (e.g. "show all pending orders"), that's a
+  one-line migration to add.
+- Email delivery is synchronous (`deliver_now`). For anything beyond a smallish app, this belongs in a background job
+  (Sidekiq, GoodJob, etc.) so a slow mailer doesn't block the request.
+
+### What I'd add with more time
+
+- Background job for email delivery
+- Pagination on `GET /api/v1/orders`
+- Order status transitions with validation (can't go from canceled back to pending)
+- More frontend tests, especially for the Dialog submit/error flow
+- A `show` and `update` endpoint to round out the CRUD
+--
 
 ## Exercise for FullStack position
 
