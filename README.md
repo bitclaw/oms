@@ -115,6 +115,9 @@ and render JSON. All business logic lives in service objects under `app/services
   production, you'd want `deliver_later` with a background job, but the assessment says no background jobs required.
 - **CORS scoped to localhost:5173:** The CORS initializer only allows the local frontend origin. Easy to extend for
   production domains.
+- **Styling with `oklch()`:** All colors in the frontend use the `oklch()` color space instead of hex or rgba.
+  Perceptually uniform, lightness and chroma mean the same thing across hues, so adjusting a color for hover states or
+  dark text is predictable. No more eyeballing hex values.
 
 ### Docker user mapping
 

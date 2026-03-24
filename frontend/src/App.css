@@ -153,8 +153,8 @@
 }
 
 .dialog__close:hover {
-  color: oklch(15% 0.02 250);
-  background: none;
+  color: oklch(25% 0.08 167);
+  background: oklch(95% 0.03 167);
 }
 
 .dialog__form {

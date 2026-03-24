@@ -33,18 +33,18 @@ button {
 }
 
 button:hover {
-  background-color: oklch(97% 0.005 250);
+  background-color: oklch(95% 0.03 167);
 }
 
 button.btn--primary {
-  background-color: oklch(52% 0.22 270);
-  color: oklch(100% 0 0);
-  border-color: oklch(52% 0.22 270);
+  background-color: oklch(88.7% 0.103 167);
+  color: oklch(25% 0.08 167);
+  border-color: oklch(88.7% 0.103 167);
 }
 
 button.btn--primary:hover {
-  background-color: oklch(47% 0.22 270);
-  border-color: oklch(47% 0.22 270);
+  background-color: oklch(83% 0.103 167);
+  border-color: oklch(83% 0.103 167);
 }
 
 button:disabled {
@@ -65,8 +65,8 @@ input {
 }
 
 input:focus {
-  border-color: oklch(52% 0.22 270);
-  box-shadow: 0 0 0 3px oklch(52% 0.22 270 / 0.15);
+  border-color: oklch(70% 0.103 167);
+  box-shadow: 0 0 0 3px oklch(88.7% 0.103 167 / 0.5);
 }
 
 label {
