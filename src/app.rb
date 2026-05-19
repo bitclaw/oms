@@ -1,3 +1,24 @@
+# Refactored from original app.rb. Changes made:
+#
+# Bugs fixed:
+#   - send_count excluded "returned" cards from total, inflating delivery rate.
+#     Spec says total cards = all CardSend records. Fixed in CampaignPresenter#total_cards.
+#   - Delivery rate computed send_count twice per row (2 extra DB hits per campaign).
+#     Fixed via memoization in presenter.
+#
+# Structure:
+#   - CampaignPresenter (campaign_presenter.rb): encapsulates metrics and formatting.
+#     Removed business logic from the view entirely.
+#   - CampaignQuery (campaign_query.rb): encapsulates filtering. Accepts params hash,
+#     returns array of CampaignPresenter objects.
+#   - N+1 fixed: original code hit card_sends 3x per campaign. Now eager-loaded once
+#     with includes(:card_sends); presenter uses in-memory counts.
+#   - Status display: replaced if/elsif chain with CSS class interpolation.
+#
+# Open-ended (performance metrics):
+#   Cost and ROAS live in an external analytics service. See CampaignPresenter#performance_metrics
+#   for the stub and notes on integration approach.
+
 require_relative "setup"
 require_relative "campaign_presenter"
 require_relative "campaign_query"
