@@ -1,5 +1,6 @@
 require_relative "setup"
 require_relative "campaign_presenter"
+require_relative "campaign_query"
 require "erb"
 
 # ============================================================================
@@ -13,13 +14,7 @@ params = {}
 # params = { status: "active", campaign_type: "retention" }
 
 merchant = Merchant.find(1)
-
-scope = merchant.campaigns.includes(:card_sends).order(created_at: :desc)
-scope = scope.where(status: params[:status])               if params[:status]
-scope = scope.where(campaign_type: params[:campaign_type]) if params[:campaign_type]
-
-campaigns = scope.map { |c| CampaignPresenter.new(c) }
-
+campaigns = CampaignQuery.new(merchant, params).campaigns
 active_filters = params.slice(:status, :campaign_type)
 
 # ============================================================================
