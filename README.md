@@ -1,4 +1,4 @@
-# Aceup Tech Assessment
+# Order Management System
 
 This repository contains two projects:
 - **frontend/**: React 19 + Vite application
