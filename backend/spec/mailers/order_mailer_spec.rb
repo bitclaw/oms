@@ -14,7 +14,7 @@ RSpec.describe OrderMailer, type: :mailer do
     end
 
     it "includes the order ID and product in the subject" do
-      expect(mail.subject).to eq("Order ##{order.id} confirmed — #{order.product}")
+      expect(mail.subject).to eq("Order ##{order.id} confirmed - #{order.product}")
     end
 
     it "includes the customer name in the body" do

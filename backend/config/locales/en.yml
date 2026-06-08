@@ -32,4 +32,4 @@ en:
 
   order_mailer:
     order_created:
-      subject: "Order #%{order_id} confirmed — %{product}"
+      subject: "Order #%{order_id} confirmed - %{product}"

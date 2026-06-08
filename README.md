@@ -128,7 +128,7 @@ before building.
 ### DB isolation
 
 `database.yml` controls the database name per environment (`aceup_db_development`, `aceup_db_test`). There is no
-`DATABASE_NAME` override in `docker-compose.yml` — that was intentionally removed so test runs always hit the test
+`DATABASE_NAME` override in `docker-compose.yml` - that was intentionally removed so test runs always hit the test
 database and never pollute development data.
 
 ### Scalability considerations
